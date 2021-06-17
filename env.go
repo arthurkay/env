@@ -8,6 +8,16 @@ import (
 	"strings"
 )
 
+// TesEnvDir checks the directory where this package will look for the
+// .env file if file is not specified
+func TestEnvDir() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	return dir
+}
+
 // Load takes in a list of string file names to be used
 // as a collection of environmental variables to be used for
 // application data kept outside of source

@@ -151,3 +151,16 @@ func TestHandlingComments(t *testing.T) {
 		t.Errorf("Expected empty string, but got %s", os.Getenv("#TEST"))
 	}
 }
+
+// TestEnvWorkDir checks the directory this package is using as the top level directory
+func TestEnvWorkDir(t *testing.T) {
+	dir := TestEnvDir()
+	cWorkDir, err := os.Getwd()
+	if err != nil {
+		t.Errorf("Expected nil, but got %v", err)
+	}
+
+	if dir != cWorkDir {
+		t.Errorf("Expected %s, but got %s", cWorkDir, dir)
+	}
+}
