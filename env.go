@@ -52,6 +52,10 @@ func setEnvFromFile(file io.Reader) error {
 	for scanner.Scan() {
 		textLine := scanner.Text()
 		kv := strings.Split(textLine, "=")
+		if kv[1] == "null" {
+			setEnvValue(kv[0], "")
+			return nil
+		}
 		setEnvValue(kv[0], kv[1])
 	}
 

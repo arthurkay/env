@@ -1,9 +1,31 @@
 package env
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
+
+func init() {
+	createEnv("TEST=hello_gopher")
+}
+
+func createEnv(kv string) error {
+	file, err := os.Create(".env")
+	if err != nil {
+		return err
+	}
+	_, er := file.WriteString(kv)
+	if er != nil {
+		return er
+	}
+
+	return nil
+}
+
+func deleteEnvFile() {
+	os.Remove(".env")
+}
 
 func TestMultiEnvFiles(t *testing.T) {
 	files := []struct {
@@ -55,10 +77,6 @@ func TestLoadReturnsError(t *testing.T) {
 	}
 }
 
-func TestSetEnvValue(t *testing.T) {
-
-}
-
 func TestBoolReturnTypeOnSetEnv(t *testing.T) {
 	var key, value string
 	var booleanType bool
@@ -67,4 +85,18 @@ func TestBoolReturnTypeOnSetEnv(t *testing.T) {
 	if reflect.TypeOf(booleanType) != reflect.TypeOf(actual) {
 		t.Errorf("Expected to get %T, but got %T", reflect.TypeOf(booleanType), reflect.TypeOf(actual))
 	}
+}
+
+func TestNullString(t *testing.T) {
+	err := createEnv("TEST=null")
+	if err != nil {
+		t.Errorf("expected nil, got %T", err)
+	}
+
+	Load()
+	if os.Getenv("TEST") != "" {
+		t.Errorf("Expected nil, but got %s", os.Getenv("TEST"))
+	}
+
+	deleteEnvFile()
 }
