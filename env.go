@@ -63,6 +63,12 @@ func setEnvFromFile(file io.Reader) error {
 			return nil
 		}
 
+		firstLetter := string([]rune(textLine)[0])
+
+		if firstLetter == "#" {
+			return nil
+		}
+
 		if kv[1] == "null" {
 			setEnvValue(kv[0], "")
 			return nil

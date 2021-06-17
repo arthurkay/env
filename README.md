@@ -23,7 +23,7 @@ First create a `.env` file.
 TOKEN=SuperSecretToken
 ```
 
-If the file is in the root directory of your module, it will automatically be picked no need to pass it as na argument to the `Load()` function.
+If the file is in the root directory of your module, it will automatically be picked, no need to pass it as an argument to the `Load()` function.
 
 ```go
 package main

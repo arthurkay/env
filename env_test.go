@@ -121,7 +121,7 @@ func TestNullString(t *testing.T) {
 }
 
 // TestHandleEmptyLines tests how the package handles empty lines in the
-// .TestHandleEmptyLinesenv files
+// .env files
 func TestHandleEmptyLines(t *testing.T) {
 	err := createEnv("                  ")
 	if err != nil {
@@ -131,5 +131,23 @@ func TestHandleEmptyLines(t *testing.T) {
 	er := Load()
 	if er != nil {
 		t.Errorf("Expected nil, but got %v", er)
+	}
+}
+
+// TestHandlingComments check for lines that begin with #,
+// if any is found, ignore them
+func TestHandlingComments(t *testing.T) {
+	err := createEnv("#TEST=hello_gopher")
+	if err != nil {
+		t.Errorf("Expected nil, but got %v", err)
+	}
+
+	er := Load()
+	if er != nil {
+		t.Errorf("Expected nil, but got %v", er)
+	}
+
+	if os.Getenv("#TEST") != "" {
+		t.Errorf("Expected empty string, but got %s", os.Getenv("#TEST"))
 	}
 }
