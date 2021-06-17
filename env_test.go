@@ -27,6 +27,8 @@ func deleteEnvFile() {
 	os.Remove(".env")
 }
 
+// TestMultiEnvFiles tests the different number of environmental
+// files passed to the package
 func TestMultiEnvFiles(t *testing.T) {
 	files := []struct {
 		Name   string
@@ -69,6 +71,7 @@ func TestMultiEnvFiles(t *testing.T) {
 	}
 }
 
+// TestLoadReturnError tests the Load function return type
 func TestLoadReturnsError(t *testing.T) {
 	responseType := Load()
 	var rightError error
@@ -77,6 +80,8 @@ func TestLoadReturnsError(t *testing.T) {
 	}
 }
 
+// TestBoolReturnOnSetEnv checks the return type of the
+// setEnvValue function, making sure it returns a boolean
 func TestBoolReturnTypeOnSetEnv(t *testing.T) {
 	var key, value string
 	var booleanType bool
@@ -87,6 +92,7 @@ func TestBoolReturnTypeOnSetEnv(t *testing.T) {
 	}
 }
 
+// TestStringCapture tests the ability to get the set value from the package
 func TestStringCapture(t *testing.T) {
 	err := createEnv("TEST=Arthur")
 	if err != nil {
@@ -99,6 +105,7 @@ func TestStringCapture(t *testing.T) {
 	}
 }
 
+// TestNullString tests handling of null string value
 func TestNullString(t *testing.T) {
 	err := createEnv("TEST=null")
 	if err != nil {
@@ -111,4 +118,18 @@ func TestNullString(t *testing.T) {
 	}
 
 	deleteEnvFile()
+}
+
+// TestHandleEmptyLines tests how the package handles empty lines in the
+// .TestHandleEmptyLinesenv files
+func TestHandleEmptyLines(t *testing.T) {
+	err := createEnv("                  ")
+	if err != nil {
+		t.Errorf("Expected nil, but got %v", err)
+	}
+
+	er := Load()
+	if er != nil {
+		t.Errorf("Expected nil, but got %v", er)
+	}
 }

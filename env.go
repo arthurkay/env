@@ -26,7 +26,11 @@ func Load(files ...string) error {
 			return err
 		}
 
-		setEnvFromFile(file)
+		er := setEnvFromFile(file)
+
+		if er != nil {
+			return er
+		}
 
 		return nil
 	}
@@ -51,7 +55,14 @@ func setEnvFromFile(file io.Reader) error {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		textLine := scanner.Text()
+
 		kv := strings.Split(textLine, "=")
+		kvCount := len(kv)
+
+		if kvCount <= 1 {
+			return nil
+		}
+
 		if kv[1] == "null" {
 			setEnvValue(kv[0], "")
 			return nil
