@@ -87,6 +87,18 @@ func TestBoolReturnTypeOnSetEnv(t *testing.T) {
 	}
 }
 
+func TestStringCapture(t *testing.T) {
+	err := createEnv("TEST=Arthur")
+	if err != nil {
+		t.Errorf("Expected a .env file, but found none")
+	}
+	Load(".env")
+
+	if os.Getenv("TEST") != "Arthur" {
+		t.Errorf("Expected Arthur, but got %s", os.Getenv("TEST"))
+	}
+}
+
 func TestNullString(t *testing.T) {
 	err := createEnv("TEST=null")
 	if err != nil {
