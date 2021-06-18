@@ -164,3 +164,46 @@ func TestEnvWorkDir(t *testing.T) {
 		t.Errorf("Expected %s, but got %s", cWorkDir, dir)
 	}
 }
+
+func TestMultiLineTextWithComment(t *testing.T) {
+	textLines :=
+		`NAME=Arthur
+
+SPACE=true
+#COMMENT=yes
+APP=env
+`
+	err := createEnv(textLines)
+
+	er := Load()
+
+	if er != nil {
+		t.Errorf("Expected nil, but got %v", er)
+	}
+
+	if err != nil {
+		t.Errorf("Unable to create .env file")
+	}
+
+	if os.Getenv("NAME") != "Arthur" {
+		t.Errorf("Expected Arthur, but got %s", os.Getenv("NAME"))
+	}
+
+	if os.Getenv("SPACE") != "true" {
+		t.Errorf("Expected true, but got %s", os.Getenv("SPACE"))
+	}
+
+	if os.Getenv("#COMMENT") == "yes" {
+		t.Error("Expected nil, but got yes")
+	}
+
+	if os.Getenv("COMMENT") == "yes" {
+		t.Error("Expected nil, but got yes")
+	}
+
+	if os.Getenv("APP") != "env" {
+		t.Errorf("Expected env, but got %s", os.Getenv("APP"))
+	}
+
+	deleteEnvFile()
+}

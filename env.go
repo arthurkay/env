@@ -70,13 +70,13 @@ func setEnvFromFile(file io.Reader) error {
 		kvCount := len(kv)
 
 		if kvCount <= 1 {
-			return nil
+			continue
 		}
 
 		firstLetter := string([]rune(textLine)[0])
 
 		if firstLetter == "#" {
-			return nil
+			continue
 		}
 
 		if kv[1] == "null" {
