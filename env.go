@@ -81,9 +81,9 @@ func setEnvFromFile(file io.Reader) error {
 
 		if kv[1] == "null" {
 			setEnvValue(kv[0], "")
-			return nil
+		} else {
+			setEnvValue(kv[0], kv[1])
 		}
-		setEnvValue(kv[0], kv[1])
 	}
 
 	if err := scanner.Err(); err != nil {

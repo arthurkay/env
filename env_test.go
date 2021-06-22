@@ -170,6 +170,7 @@ func TestMultiLineTextWithComment(t *testing.T) {
 		`NAME=Arthur
 
 SPACE=true
+UNKNOWN=null
 #COMMENT=yes
 APP=env
 `
@@ -203,6 +204,10 @@ APP=env
 
 	if os.Getenv("APP") != "env" {
 		t.Errorf("Expected env, but got %s", os.Getenv("APP"))
+	}
+
+	if os.Getenv("UNKNOWN") != "" {
+		t.Errorf("Expected nil, but got %s", os.Getenv("UNKNOWN"))
 	}
 
 	deleteEnvFile()
