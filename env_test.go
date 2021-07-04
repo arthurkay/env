@@ -169,10 +169,11 @@ func TestMultiLineTextWithComment(t *testing.T) {
 	textLines :=
 		`NAME=Arthur
 
-SPACE=true
+SPACE= true
 UNKNOWN=null
-#COMMENT=yes
+#COMMENT= yes
 APP=env
+DEBUG=true
 `
 	err := createEnv(textLines)
 

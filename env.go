@@ -73,13 +73,13 @@ func setEnvFromFile(file io.Reader) error {
 			continue
 		}
 
-		firstLetter := string([]rune(textLine)[0])
+		firstLetter := string([]rune(strings.TrimSpace(textLine))[0])
 
 		if firstLetter == "#" {
 			continue
 		}
 
-		if kv[1] == "null" {
+		if strings.TrimSpace(kv[1]) == "null" {
 			setEnvValue(kv[0], "")
 		} else {
 			setEnvValue(kv[0], kv[1])
@@ -93,7 +93,9 @@ func setEnvFromFile(file io.Reader) error {
 }
 
 func setEnvValue(key, value string) bool {
-	err := os.Setenv(key, value)
+	k := strings.TrimSpace(key)
+	v := strings.TrimSpace(value)
+	err := os.Setenv(k, v)
 	return err == nil
 }
 
